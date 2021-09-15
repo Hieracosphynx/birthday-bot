@@ -1,0 +1,31 @@
+{
+  "name": "birthday-bot",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Hieracosphynx <cortezmiguel05@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon --exec babel-node src/index.js",
+    "start": "node build/index.js",
+    "build": "babel src -d build",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.15.3",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0",
+    "mongoose": "^6.0.2"
+  }
+}
