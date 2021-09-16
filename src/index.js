@@ -1,26 +1,39 @@
-import mongoose from 'mongoose'
 import { Client, Intents, Collection } from 'discord.js'
 import { Routes } from 'discord-api-types/v9'
 import { REST } from '@discordjs/rest'
+import { config } from 'dotenv'
 import fs from 'fs'
+import ConnectDB from './config/db'
 import Guild from './models/Guild'
 
 const commands = []
-mongoose.connect('mongodb://db:27017/sircon-bot')
-mongoose.connection.once('open', () => console.log('MongoDB connection: Success'))
 const commandFiles = fs.readdirSync('./src/commands').filter((file) => file.endsWith('.js'))
+const eventFiles = fs.readdirSync('./src/events').filter((file) => file.endsWith('.js'))
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 client.commands = new Collection()
 
+// .env
+config()
+
+// Connect to MongoDB
+ConnectDB()
+
+// Command files
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
   client.commands.set(command.data.name, command)
   commands.push(command.data.toJSON())
 }
 
-client.once('ready', () => {
-  console.log('Discord bot online')
-})
+// Event files
+for (const file of eventFiles) {
+  const event = require(`./events/${file}`)
+  if (event.default.once) {
+    client.once(event.default.name, (...args) => event.default.execute(...args))
+  } else {
+    client.on(event.name, (...args) => execute(...args))
+  }
+}
 
 client.on('interactionCreate', async (interaction) => {
   console.log(interaction)
