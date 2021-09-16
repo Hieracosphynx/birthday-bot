@@ -27,6 +27,7 @@
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "mongoose": "^6.0.2"
+    "mongoose": "^6.0.2",
+    "core-js": "^3.16.4"
   }
 }
